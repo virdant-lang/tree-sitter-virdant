@@ -12,7 +12,26 @@
           "named": true
         },
         {
-          "type": "typelist",
+          "type": "param_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "arg",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -117,6 +136,55 @@
         },
         {
           "type": "latched",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enumdef",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "enumdef_statement",
+          "named": true
+        },
+        {
+          "type": "nat",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "enumdef_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ident",
+          "named": true
+        },
+        {
+          "type": "word_lit",
           "named": true
         }
       ]
@@ -258,6 +326,10 @@
           "named": true
         },
         {
+          "type": "enumerant",
+          "named": true
+        },
+        {
           "type": "word_lit",
           "named": true
         }
@@ -312,6 +384,40 @@
       "types": [
         {
           "type": "ident",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "fndef",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "expr",
+          "named": true
+        },
+        {
+          "type": "param_list",
           "named": true
         },
         {
@@ -386,6 +492,14 @@
           "named": true
         },
         {
+          "type": "enumdef",
+          "named": true
+        },
+        {
+          "type": "fndef",
+          "named": true
+        },
+        {
           "type": "moddef",
           "named": true
         },
@@ -455,10 +569,6 @@
           "named": true
         },
         {
-          "type": "node",
-          "named": true
-        },
-        {
           "type": "outgoing",
           "named": true
         },
@@ -473,34 +583,12 @@
         {
           "type": "submodule",
           "named": true
+        },
+        {
+          "type": "wire",
+          "named": true
         }
       ]
-    }
-  },
-  {
-    "type": "node",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "ident",
-            "named": true
-          }
-        ]
-      },
-      "type": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "type",
-            "named": true
-          }
-        ]
-      }
     }
   },
   {
@@ -564,6 +652,21 @@
     }
   },
   {
+    "type": "param_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "arg",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "pat",
     "named": true,
     "fields": {},
@@ -573,6 +676,10 @@
       "types": [
         {
           "type": "ctor",
+          "named": true
+        },
+        {
+          "type": "enumerant",
           "named": true
         },
         {
@@ -799,21 +906,6 @@
     }
   },
   {
-    "type": "typelist",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "uniondef",
     "named": true,
     "fields": {
@@ -837,6 +929,32 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "wire",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -892,6 +1010,10 @@
     "named": false
   },
   {
+    "type": "=",
+    "named": false
+  },
+  {
     "type": "=>",
     "named": false
   },
@@ -932,11 +1054,23 @@
     "named": false
   },
   {
+    "type": "enum",
+    "named": false
+  },
+  {
+    "type": "enumerant",
+    "named": true
+  },
+  {
     "type": "ext",
     "named": false
   },
   {
     "type": "false",
+    "named": false
+  },
+  {
+    "type": "fn",
     "named": false
   },
   {
@@ -986,10 +1120,6 @@
   {
     "type": "nat",
     "named": true
-  },
-  {
-    "type": "node",
-    "named": false
   },
   {
     "type": "of",
@@ -1049,6 +1179,14 @@
   },
   {
     "type": "union",
+    "named": false
+  },
+  {
+    "type": "width",
+    "named": false
+  },
+  {
+    "type": "wire",
     "named": false
   },
   {

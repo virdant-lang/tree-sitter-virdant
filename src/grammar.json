@@ -58,6 +58,14 @@
         },
         {
           "type": "SYMBOL",
+          "name": "enumdef"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "fndef"
+        },
+        {
+          "type": "SYMBOL",
           "name": "socketdef"
         }
       ]
@@ -261,6 +269,128 @@
         }
       ]
     },
+    "enumdef": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "enum"
+        },
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "width"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "nat"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "enumdef_statement"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "enumdef_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "ident"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "SYMBOL",
+          "name": "word_lit"
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "fndef": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "fn"
+        },
+        {
+          "type": "FIELD",
+          "name": "name",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ident"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "param_list"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "->"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expr"
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
     "alt": {
       "type": "SEQ",
       "members": [
@@ -277,7 +407,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "typelist"
+              "name": "param_list"
             },
             {
               "type": "BLANK"
@@ -435,7 +565,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "node"
+          "name": "wire"
         },
         {
           "type": "SYMBOL",
@@ -534,12 +664,12 @@
         }
       ]
     },
-    "node": {
+    "wire": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
-          "value": "node"
+          "value": "wire"
         },
         {
           "type": "FIELD",
@@ -962,6 +1092,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "enumerant"
+        },
+        {
+          "type": "SYMBOL",
           "name": "ident"
         },
         {
@@ -1154,6 +1288,10 @@
       "members": [
         {
           "type": "SYMBOL",
+          "name": "enumerant"
+        },
+        {
+          "type": "SYMBOL",
           "name": "word_lit"
         },
         {
@@ -1226,6 +1364,60 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "param_list": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "arg"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "arg"
+              }
+            ]
+          }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "STRING",
+              "value": ","
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "arg": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "ident"
+        },
+        {
+          "type": "STRING",
+          "value": ":"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "type"
         }
       ]
     },
@@ -1303,6 +1495,10 @@
     "nat": {
       "type": "PATTERN",
       "value": "[0-9][_0-9]*"
+    },
+    "enumerant": {
+      "type": "PATTERN",
+      "value": "#[_A-Za-z][_A-Za-z0-9]*"
     },
     "ctor": {
       "type": "PATTERN",

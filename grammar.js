@@ -23,6 +23,8 @@ module.exports = grammar({
       $.builtindef,
       $.structdef,
       $.uniondef,
+      $.enumdef,
+      $.fndef,
       $.socketdef,
     ),
 
@@ -53,7 +55,21 @@ module.exports = grammar({
       "}"
     ),
 
-    alt: $ => seq($.ident, "(", optional($.typelist), ")", ";"),
+    enumdef: $ => seq(
+      "enum", "type", field("name", $.ident), "width", $.nat, "{",
+        repeat($.enumdef_statement),
+      "}"
+    ),
+
+    enumdef_statement: $ => seq($.ident, "=", $.word_lit, ";"),
+
+    fndef: $ => seq(
+      "fn", field("name", $.ident), "(", optional($.param_list), ")", "->", $.type, "{",
+        $.expr,
+      "}"
+    ),
+
+    alt: $ => seq($.ident, "(", optional($.param_list), ")", ";"),
 
     socketdef: $ => seq(
       "socket", field("name", $.ident), "{",
@@ -84,7 +100,7 @@ module.exports = grammar({
       $.implicit,
       $.incoming,
       $.outgoing,
-      $.node,
+      $.wire,
       $.reg,
       $.socket,
     ),
@@ -92,7 +108,7 @@ module.exports = grammar({
     implicit: $ => seq("implicit", field("name", $.ident), ":", field("type", $.type)),
     incoming: $ => seq("incoming", field("name", $.ident), ":", field("type", $.type)),
     outgoing: $ => seq("outgoing", field("name", $.ident), ":", field("type", $.type)),
-    node: $ => seq("node", field("name", $.ident), ":", field("type", $.type)),
+    wire: $ => seq("wire", field("name", $.ident), ":", field("type", $.type)),
     reg: $ => seq("reg", field("name", $.ident), ":", field("type", $.type), choice("on", field("on", $.path))),
     socket: $ => seq(field("role", $.socket_role), "socket", field("name", $.ident), "of", field("socketdef", $.ident)),
 
@@ -144,6 +160,7 @@ module.exports = grammar({
 
     pat: $ => choice(
       seq($.ctor, "(", optional($.patlist), ")"),
+      $.enumerant,
       $.ident,
       "else",
     ),
@@ -165,6 +182,7 @@ module.exports = grammar({
     ),
 
     expr_lit: $ => choice(
+      $.enumerant,
       $.word_lit,
       $.bool,
     ),
@@ -181,6 +199,10 @@ module.exports = grammar({
     ),
 
     _expr_list: $ => seq($.expr, repeat(seq(",", $.expr)), optional(",")),
+
+    param_list: $ => seq($.arg, repeat(seq(",", $.arg)), optional(",")),
+
+    arg: $ => seq($.ident, ":", $.type),
 
     type: $ => choice(
       $.type_clock,
@@ -200,6 +222,7 @@ module.exports = grammar({
       /[0-9][_0-9]*(w[0-9]+)?/,
     ),
     nat: $ => /[0-9][_0-9]*/,
+    enumerant: $ => /#[_A-Za-z][_A-Za-z0-9]*/,
     ctor: $ => /@[_A-Za-z][_A-Za-z0-9]*/,
     qualident: $ => /([_A-Za-z][_A-Za-z0-9]*::)?[_A-Za-z][_A-Za-z0-9]*/,
     ident: $ => /[_A-Za-z][_A-Za-z0-9]*/,

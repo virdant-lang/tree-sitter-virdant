@@ -1,6 +1,9 @@
 [
     ; "in"
+    "enum"
+    "width"
     "builtin"
+    "fn"
     "socket"
     "import"
     "ext"
@@ -19,7 +22,7 @@
     "implicit"
     "incoming"
     "outgoing"
-    "node"
+    "wire"
     "reg"
     "on"
     "of"
@@ -33,6 +36,7 @@
 (type) @type
 (uniondef name: (ident) @type)
 (structdef name: (ident) @type)
+(enumdef name: (ident) @type)
 (type_word "Word" @type.builtin (nat) @number)
 (type_clock) @type.builtin
 (type_bit) @type.builtin
