@@ -11,221 +11,270 @@ module.exports = grammar({
   ],
 
   rules: {
-    package: $ => seq(
-      repeat($.package_import),
-      repeat($.item),
+    package: $ => repeat($._package_stmt),
+
+    _package_stmt: $ => choice(
+      $.package_import,
+      $.item,
     ),
 
-    package_import: $ => seq("import", $.ident, ";"),
+    package_import: $ => seq("import", $.ident),
 
     item: $ => choice(
       $.moddef,
-      $.builtindef,
       $.structdef,
       $.uniondef,
       $.enumdef,
-      $.fndef,
+      $.builtindef,
       $.socketdef,
+      $.fndef,
     ),
-
-    visibility: $ => optional("pub"),
 
     moddef: $ => seq(
-      optional("pub"), optional("ext"), "mod", field("name", $.ident), "{",
-        repeat(seq($._decl, ";")),
-      "}",
-    ),
-
-    builtindef: $ => seq(
-      "builtin", "type", field("name", $.ident), "{",
+      optional("ext"), optional("export"), "mod", field("name", $.ident), "{",
+      repeat($._moddef_stmt),
       "}"
     ),
 
     structdef: $ => seq(
       "struct", "type", field("name", $.ident), "{",
-        repeat($.field),
+      repeat($.structdef_stmt),
       "}"
     ),
 
-    field: $ => seq($.ident, ":", $.type, ";"),
+    structdef_stmt: $ => seq(field("name", $.ident), ":", $.type),
 
     uniondef: $ => seq(
       "union", "type", field("name", $.ident), "{",
-        repeat($.alt),
+      repeat($.uniondef_stmt),
       "}"
     ),
+
+    uniondef_stmt: $ => seq(field("name", $.ident), optional($.paramlist)),
+
+    paramlist: $ => seq("(", optional($.params), ")"),
+
+    params: $ => seq($.param, repeat(seq(",", $.param))),
+
+    param: $ => seq(field("name", $.ident), ":", $.type),
+
+    generics_params: $ => seq("[", $.nat, "]"),
+
+    generics: $ => seq("[", $.ident, ":", $.kind, "]"),
 
     enumdef: $ => seq(
-      "enum", "type", field("name", $.ident), "width", $.nat, "{",
-        repeat($.enumdef_statement),
+      "enum", "type", field("name", $.ident), "width", field("width", $.width), "{",
+      repeat($.enumdef_stmt),
       "}"
     ),
 
-    enumdef_statement: $ => seq($.ident, "=", $.word_lit, ";"),
+    enumdef_stmt: $ => seq(field("name", $.ident), "=", $.expr),
 
-    fndef: $ => seq(
-      "fn", field("name", $.ident), "(", optional($.param_list), ")", "->", $.type, "{",
-        $.expr,
+    builtindef: $ => seq(
+      "builtin", "type", field("name", $.ident), optional($.generics), "{",
       "}"
     ),
-
-    alt: $ => seq($.ident, "(", optional($.param_list), ")", ";"),
 
     socketdef: $ => seq(
       "socket", field("name", $.ident), "{",
-        repeat($.channel),
+      repeat($.socketdef_stmt),
       "}"
     ),
 
-    channel: $ => seq($.channeldir, $.ident, ":", $.type, ";"),
-
-    channeldir: $ => choice(
-      "mosi",
-      "miso",
+    socketdef_stmt: $ => choice(
+      seq("mosi", field("name", $.ident), ":", $.type),
+      seq("miso", field("name", $.ident), ":", $.type),
     ),
 
-    typelist: $ => seq(
-      $.type,
-      repeat(seq(",", $.type)),
-      optional(","),
+    fndef: $ => seq(
+      "fn", field("name", $.ident), field("paramlist", $.paramlist), "->", $.type, "{",
+      $.expr,
+      "}"
     ),
 
-    _decl: $ => choice(
-      $._component,
-      $.connect,
-      $.submodule,
+    _moddef_stmt: $ => choice(
+      $._moddef_stmt_component,
+      $._moddef_stmt_driver,
+      $._moddef_stmt_instance,
+      $._moddef_stmt_socket,
+      $.moddef_stmt_if,
+      $.moddef_stmt_match,
     ),
 
-    _component: $ => choice(
-      $.implicit,
-      $.incoming,
-      $.outgoing,
-      $.wire,
-      $.reg,
-      $.socket,
+    _moddef_stmt_component: $ => choice(
+      seq("incoming", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause))),
+      seq("outgoing", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause))),
+      seq("wire", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause))),
+      seq("reg", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause))),
     ),
 
-    implicit: $ => seq("implicit", field("name", $.ident), ":", field("type", $.type)),
-    incoming: $ => seq("incoming", field("name", $.ident), ":", field("type", $.type)),
-    outgoing: $ => seq("outgoing", field("name", $.ident), ":", field("type", $.type)),
-    wire: $ => seq("wire", field("name", $.ident), ":", field("type", $.type)),
-    reg: $ => seq("reg", field("name", $.ident), ":", field("type", $.type), choice("on", field("on", $.path))),
-    socket: $ => seq(field("role", $.socket_role), "socket", field("name", $.ident), "of", field("socketdef", $.ident)),
+    on_clause: $ => seq("on", $.expr),
 
-    socket_role: $ => choice(
-      "master",
-      "slave",
+    _moddef_stmt_driver: $ => choice(
+      seq(field("lhs", $.path), ":=", field("rhs", $.expr)),
+      seq(field("lhs", $.path), "<=", field("rhs", $.expr)),
+      seq(field("lhs", $.path), ":=:", field("rhs", $.path)),
     ),
 
-    connect: $ => choice(
-      seq(field("target", $.path), field("connect_type", $.connect_type), field("expr", $.expr)),
+    _moddef_stmt_instance: $ => seq(
+      "mod", field("name", $.ident), "of", field("ofness", $.ofness), optional($.it_block),
     ),
 
-    submodule: $ => seq("mod", field("name", $.ident), "of", field("module", $.qualident)),
+    it_block: $ => $.moddef_stmt_block,
 
-    connect_type: $ => choice(
-      $.direct,
-      $.latched,
+    _moddef_stmt_socket: $ => choice(
+      seq("master", "socket", field("name", $.ident), "of", field("ofness", $.ofness)),
+      seq("slave", "socket", field("name", $.ident), "of", field("ofness", $.ofness)),
     ),
 
-    direct: $ => ":=",
-    latched: $ => "<=",
+    moddef_stmt_if: $ => seq(
+      $.moddef_stmt_if_start,
+      repeat($.moddef_stmt_if_middle),
+      optional($.moddef_stmt_if_end),
+    ),
+
+    moddef_stmt_if_start: $ => seq("if", $.expr, $.moddef_stmt_block),
+
+    moddef_stmt_if_middle: $ => seq("else", "if", $.expr, $.moddef_stmt_block),
+
+    moddef_stmt_if_end: $ => seq("else", $.moddef_stmt_block),
+
+    moddef_stmt_match: $ => seq(
+      "match", $.expr, "{",
+      repeat($.moddef_stmt_match_arm),
+      "}"
+    ),
+
+    moddef_stmt_match_arm: $ => choice(
+      seq("case", $.pat, "=>", $.moddef_stmt_block),
+      seq("else", "=>", $.moddef_stmt_block),
+    ),
+
+    moddef_stmt_block: $ => seq("{", repeat($._moddef_stmt), "}"),
+
+    kind: $ => field("name", $.ident),
+
+    type: $ => seq(field("ofness", $.ofness), field("generics", optional($.generics_params))),
 
     expr: $ => choice(
       $.expr_if,
       $.expr_match,
-      $.expr_call,
-      $.expr_idx,
-      $.expr_lit,
-      $.expr_reference,
-      seq("(", $.expr, ")"),
+      $.expr_struct,
+      $.expr_bin_op_logical,
     ),
 
     expr_if: $ => seq(
-      "if", $.expr, "{",
-        $.expr,
-      repeat(seq("}", "else", "if", $.expr, "{")),
-      "}", "else", "{",
-        $.expr,
-      "}",
+      $.expr_if_start,
+      repeat($.expr_if_middle),
+      $.expr_if_end,
     ),
+
+    expr_if_start: $ => seq("if", $.expr, "{", $.expr, "}"),
+
+    expr_if_middle: $ => seq("else", "if", $.expr, "{", $.expr, "}"),
+
+    expr_if_end: $ => seq("else", "{", $.expr, "}"),
 
     expr_match: $ => seq(
-      "match", $.expr, optional(seq(":", $.type)), "{",
-        repeat($.match_arm),
-      "}",
+      "match", $.expr, "{",
+      repeat($.expr_match_arm),
+      "}"
     ),
 
-    match_arm: $ => seq($.pat, "=>", $.expr, ";"),
+    expr_match_arm: $ => choice(
+      seq("case", $.pat, "=>", $.expr),
+      seq("else", "=>", $.expr),
+    ),
 
     pat: $ => choice(
-      seq($.ctor, "(", optional($.patlist), ")"),
-      $.enumerant,
-      $.ident,
-      "else",
+      seq("#", field("name", $.ident)),
+      seq("@", field("name", $.ident)),
+      seq("@", field("name", $.ident), "(", field("args", optional($.arglist)), ")"),
     ),
 
-    patlist: $ => seq(
-      $.pat,
-      repeat(seq(",", $.pat)),
-      optional(","),
+    expr_struct: $ => seq("$", "{", field("assigns", optional($.assign_list)), "}"),
+
+    assign_list: $ => choice(
+      seq(repeat1(seq($.assign, ",")), $.assign, optional(",")),
+      seq($.assign, optional(",")),
+      seq($.expr, optional(",")),
     ),
 
-    expr_call: $ => choice(
-      seq(field("subject", $.expr), "->", field("method", $.ident), "(", field("args", optional($._expr_list)), ")"),
-      seq($.ctor, "(", field("args", optional($._expr_list)), ")"),
+    assign: $ => seq(field("name", $.ident), "=", $.expr),
+
+    expr_bin_op_logical: $ => choice(
+      seq(field("lhs", $.expr_bin_op_logical), field("op", choice("&&", "||", "^^")), field("rhs", $.expr_bin_op_compare)),
+      $.expr_bin_op_compare,
     ),
 
-    expr_idx: $ => choice(
-      seq($.expr, "[", $.nat, "]"),
-      seq($.expr, "[", $.nat, "..", $.nat, "]"),
+    expr_bin_op_compare: $ => choice(
+      seq(field("lhs", $.expr_bin_op_compare), field("op", choice("<", "<=", ">", ">=", "==", "!=")), field("rhs", $.expr_bin_op_additive)),
+      $.expr_bin_op_additive,
     ),
 
-    expr_lit: $ => choice(
-      $.enumerant,
+    expr_bin_op_additive: $ => choice(
+      seq(field("lhs", $.expr_bin_op_additive), field("op", choice("+", "-", "&", "|", "^")), field("rhs", $.expr_un_op)),
+      $.expr_un_op,
+    ),
+
+    expr_un_op: $ => choice(
+      seq(field("op", choice("-", "~", "!")), field("rhs", $.expr_un_op)),
+      $.expr_ascription,
+    ),
+
+    expr_ascription: $ => choice(
+      seq(field("e", $.expr_primary), ":", field("typ", $.type)),
+      $.expr_primary,
+    ),
+
+    expr_primary: $ => choice(
+      seq(field("ofness", $.ofness), "(", field("args", optional($.arglist)), ")"),
+      seq(field("e", $.expr_primary), "->", field("method", $.ident), "(", field("arglist", optional($.arglist)), ")"),
+      seq(field("e", $.expr_primary), "->", field("field", $.ident)),
+      seq(field("e", $.expr_primary), "[", field("index", $.index), "]"),
+      seq(field("e", $.expr_primary), "[", field("index_hi", $.index), "..", field("index_lo", $.index), "]"),
+      seq("@", field("ctor", $.ident), "(", field("args", optional($.arglist)), ")"),
+      $.expr_atom,
+    ),
+
+    expr_atom: $ => choice(
+      $.path,
       $.word_lit,
-      $.bool,
-    ),
-    expr_reference: $ => $.path,
-
-    word_lit: $ => choice(
-      $.word,
-      $.nat,
-    ),
-
-    bool: $ => choice(
       "true",
       "false",
+      $.str,
+      seq("#", field("enumerant", $.ident)),
+      seq("@", field("ctor", $.ident)),
+      "?",
+      seq("(", $.expr, ")"),
     ),
 
-    _expr_list: $ => seq($.expr, repeat(seq(",", $.expr)), optional(",")),
+    arglist: $ => seq($.expr, repeat(seq(",", $.expr)), optional(",")),
 
-    param_list: $ => seq($.arg, repeat(seq(",", $.arg)), optional(",")),
-
-    arg: $ => seq($.ident, ":", $.type),
-
-    type: $ => choice(
-      $.type_clock,
-      $.type_word,
-      $.type_bit,
-      $.qualident,
+    ofness: $ => choice(
+      field("name", $.ident),
+      seq(field("package", $.ident), "::", field("name", $.ident)),
     ),
 
-    type_clock: $ => "Clock",
-    type_word: $ => seq("Word", "[", $.nat, "]"),
-    type_bit: $ => "Bit",
+    path: $ => seq(repeat(seq($.ident, ".")), $.ident),
 
-    path: $ => /(([_A-Za-z][_A-Za-z0-9]*)\.)*([_A-Za-z][_A-Za-z0-9]*)/,
+    index: $ => $.nat,
+
+    width: $ => $.nat,
+
+    word_lit: $ => choice($.nat, $.word),
+
+    ident: $ => /[_A-Za-z][_A-Za-z0-9]*/,
+
+    nat: $ => /[0-9][_0-9]*/,
+
+    str: $ => /"[^"]*"/,
+
     word: $ => choice(
       /0b[0-1][_0-1]*(w[0-9]+)?/,
       /0x[0-9A-Fa-f][_0-9A-Fa-f]*(w[0-9]+)?/,
       /[0-9][_0-9]*(w[0-9]+)?/,
     ),
-    nat: $ => /[0-9][_0-9]*/,
-    enumerant: $ => /#[_A-Za-z][_A-Za-z0-9]*/,
-    ctor: $ => /@[_A-Za-z][_A-Za-z0-9]*/,
-    qualident: $ => /([_A-Za-z][_A-Za-z0-9]*::)?[_A-Za-z][_A-Za-z0-9]*/,
-    ident: $ => /[_A-Za-z][_A-Za-z0-9]*/,
 
     comment_line: _ => token(seq('//', /[^\n]*/)),
 
