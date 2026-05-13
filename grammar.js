@@ -82,8 +82,8 @@ module.exports = grammar({
     ),
 
     socketdef_stmt: $ => choice(
-      seq("mosi", field("name", $.ident), ":", $.type),
-      seq("miso", field("name", $.ident), ":", $.type),
+      seq("cosi", field("name", $.ident), ":", $.type),
+      seq("ciso", field("name", $.ident), ":", $.type),
     ),
 
     fndef: $ => seq(
@@ -99,13 +99,16 @@ module.exports = grammar({
       $._moddef_stmt_socket,
       $.moddef_stmt_if,
       $.moddef_stmt_match,
+      $.moddef_stmt_drop,
     ),
 
+    moddef_stmt_drop: $ => seq("drop", $.path),
+
     _moddef_stmt_component: $ => choice(
-      seq("incoming", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause))),
-      seq("outgoing", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause))),
-      seq("wire", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause))),
-      seq("reg", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause))),
+      seq("incoming", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause)), optional($.it_block)),
+      seq("outgoing", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause)), optional($.it_block)),
+      seq("wire", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause)), optional($.it_block)),
+      seq("reg", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause)), optional($.it_block)),
     ),
 
     on_clause: $ => seq("on", $.expr),
@@ -123,8 +126,8 @@ module.exports = grammar({
     it_block: $ => $.moddef_stmt_block,
 
     _moddef_stmt_socket: $ => choice(
-      seq("master", "socket", field("name", $.ident), "of", field("ofness", $.ofness)),
-      seq("slave", "socket", field("name", $.ident), "of", field("ofness", $.ofness)),
+      seq("client", "socket", field("name", $.ident), "of", field("ofness", $.ofness), optional($.it_block)),
+      seq("server", "socket", field("name", $.ident), "of", field("ofness", $.ofness), optional($.it_block)),
     ),
 
     moddef_stmt_if: $ => seq(
@@ -196,8 +199,7 @@ module.exports = grammar({
 
     assign_list: $ => choice(
       seq(repeat1(seq($.assign, ",")), $.assign, optional(",")),
-      seq($.assign, optional(",")),
-      seq($.expr, optional(",")),
+      $.expr,
     ),
 
     assign: $ => seq(field("name", $.ident), "=", $.expr),
@@ -229,7 +231,6 @@ module.exports = grammar({
 
     expr_primary: $ => choice(
       seq(field("ofness", $.ofness), "(", field("args", optional($.arglist)), ")"),
-      seq(field("e", $.expr_primary), "->", field("method", $.ident), "(", field("arglist", optional($.arglist)), ")"),
       seq(field("e", $.expr_primary), "->", field("field", $.ident)),
       seq(field("e", $.expr_primary), "[", field("index", $.index), "]"),
       seq(field("e", $.expr_primary), "[", field("index_hi", $.index), "..", field("index_lo", $.index), "]"),
@@ -256,7 +257,12 @@ module.exports = grammar({
       seq(field("package", $.ident), "::", field("name", $.ident)),
     ),
 
-    path: $ => seq(repeat(seq($.ident, ".")), $.ident),
+    path: $ => choice(
+      seq(repeat(seq($.ident, ".")), $.ident),
+      seq(repeat(seq("it", ".")), "it"),
+      seq(repeat(seq($.ident, ".")), "it"),
+      seq("it", repeat(seq(".", $.ident))),
+    ),
 
     index: $ => $.nat,
 
