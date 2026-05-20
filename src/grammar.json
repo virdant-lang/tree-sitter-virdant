@@ -1,4 +1,5 @@
 {
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "virdant",
   "rules": {
     "package": {
@@ -1622,7 +1623,7 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "REPEAT1",
+              "type": "REPEAT",
               "content": {
                 "type": "SEQ",
                 "members": [
@@ -1656,8 +1657,25 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "expr"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "expr"
+            },
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "BLANK"
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -2134,6 +2152,10 @@
           "value": "false"
         },
         {
+          "type": "STRING",
+          "value": "dontcare"
+        },
+        {
           "type": "SYMBOL",
           "name": "str"
         },
@@ -2276,74 +2298,24 @@
           "type": "SEQ",
           "members": [
             {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "ident"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "."
-                  }
-                ]
-              }
-            },
-            {
               "type": "SYMBOL",
               "name": "ident"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
+            },
             {
               "type": "REPEAT",
               "content": {
                 "type": "SEQ",
                 "members": [
-                  {
-                    "type": "STRING",
-                    "value": "it"
-                  },
                   {
                     "type": "STRING",
                     "value": "."
-                  }
-                ]
-              }
-            },
-            {
-              "type": "STRING",
-              "value": "it"
-            }
-          ]
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
+                  },
                   {
                     "type": "SYMBOL",
                     "name": "ident"
-                  },
-                  {
-                    "type": "STRING",
-                    "value": "."
                   }
                 ]
               }
-            },
-            {
-              "type": "STRING",
-              "value": "it"
             }
           ]
         },

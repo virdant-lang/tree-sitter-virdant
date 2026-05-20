@@ -27,6 +27,7 @@
     "of"
     "true"
     "false"
+    "dontcare"
 ] @keyword
 
 (moddef name: (ident) @function)
@@ -38,3 +39,15 @@
 (word) @number
 (nat) @number
 (str) @string
+
+; Constructors - highlight the entire constructor node including @ and ctor name
+(expr_atom ctor: (ident) @constructor)
+(expr_primary ctor: (ident) @constructor)
+"@" @constructor
+
+; Enumerants - highlight the same as constructors
+(expr_atom enumerant: (ident) @constructor)
+"#" @constructor
+(pat
+  "#" @constructor
+  name: (ident) @constructor)

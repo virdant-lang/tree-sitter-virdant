@@ -1218,6 +1218,7 @@
   {
     "type": "package",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -1717,6 +1718,10 @@
   },
   {
     "type": "cosi",
+    "named": false
+  },
+  {
+    "type": "dontcare",
     "named": false
   },
   {

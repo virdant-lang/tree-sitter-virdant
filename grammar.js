@@ -198,8 +198,8 @@ module.exports = grammar({
     expr_struct: $ => seq("$", "{", field("assigns", optional($.assign_list)), "}"),
 
     assign_list: $ => choice(
-      seq(repeat1(seq($.assign, ",")), $.assign, optional(",")),
-      $.expr,
+      seq(repeat(seq($.assign, ",")), $.assign, optional(",")),
+      seq($.expr, optional(",")),
     ),
 
     assign: $ => seq(field("name", $.ident), "=", $.expr),
@@ -243,6 +243,7 @@ module.exports = grammar({
       $.word_lit,
       "true",
       "false",
+      "dontcare",
       $.str,
       seq("#", field("enumerant", $.ident)),
       seq("@", field("ctor", $.ident)),
@@ -258,9 +259,7 @@ module.exports = grammar({
     ),
 
     path: $ => choice(
-      seq(repeat(seq($.ident, ".")), $.ident),
-      seq(repeat(seq("it", ".")), "it"),
-      seq(repeat(seq($.ident, ".")), "it"),
+      seq($.ident, repeat(seq(".", $.ident))),
       seq("it", repeat(seq(".", $.ident))),
     ),
 
