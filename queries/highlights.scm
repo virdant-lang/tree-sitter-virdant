@@ -1,59 +1,114 @@
+; ============================================================================
+; Virdant Tree-Sitter Syntax Highlighting Queries
+; ============================================================================
+
+; ----------------------------------------------------------------------------
+; Keywords
+; ----------------------------------------------------------------------------
 [
-    "enum"
-    "unused"
-    "width"
-    "builtin"
-    "fn"
-    "socket"
-    "import"
-    "ext"
-    "export"
-    "mod"
-    "union"
-    "struct"
-    "type"
-    "cosi"
-    "ciso"
-    "client"
-    "server"
-    "if"
-    "else"
-    "match"
-    "case"
-    "incoming"
-    "outgoing"
-    "wire"
-    "reg"
-    "on"
-    "of"
+  "enum"
+  "unused"
+  "width"
+  "builtin"
+  "fn"
+  "socket"
+  "import"
+  "ext"
+  "export"
+  "mod"
+  "union"
+  "struct"
+  "type"
+  "cosi"
+  "soci"
+  "client"
+  "server"
+  "if"
+  "else"
+  "match"
+  "case"
+  "incoming"
+  "outgoing"
+  "wire"
+  "reg"
+  "on"
+  "of"
+  "dyn"
 ] @keyword
 
-(moddef name: (ident) @function)
-(type) @type
-(uniondef name: (ident) @type)
-(structdef name: (ident) @type)
-(enumdef name: (ident) @type)
-
+; ----------------------------------------------------------------------------
+; Boolean / special literals
+; ----------------------------------------------------------------------------
 ("true") @variable.builtin
 ("false") @variable.builtin
 ("dontcare") @variable.builtin
 
+; ----------------------------------------------------------------------------
+; Number literals
+; ----------------------------------------------------------------------------
 (word) @number
 (nat) @number
+
+; ----------------------------------------------------------------------------
+; String literals
+; ----------------------------------------------------------------------------
 (str) @string
 
-; "it" in paths - special implicit variable
-(path "it" @variable.builtin)
-(path) @variable
+; ----------------------------------------------------------------------------
+; Type names
+; ----------------------------------------------------------------------------
+(type) @type
+(moddef name: (ident) @type)
+(uniondef name: (ident) @type)
+(structdef name: (ident) @type)
+(enumdef name: (ident) @type)
+(socketdef name: (ident) @type)
 
-; Constructors - highlight the entire constructor node including @ and ctor name
+; ----------------------------------------------------------------------------
+; Enum variant names / constants
+; ----------------------------------------------------------------------------
+(enumdef_stmt name: (ident) @constant)
+(expr_atom enumerant: (ident) @constructor)
+
+; ----------------------------------------------------------------------------
+; Union constructors
+; ----------------------------------------------------------------------------
 (expr_atom ctor: (ident) @constructor)
-(expr_primary ctor: (ident) @constructor)
 "@" @constructor
 
-; Enumerants - highlight the same as constructors
-(expr_atom enumerant: (ident) @constructor)
-"#" @constructor
+; ----------------------------------------------------------------------------
+; Pattern constructors / enumerants
+; ----------------------------------------------------------------------------
 (pat
   "#" @constructor
   name: (ident) @constructor)
+(pat
+  "@" @constructor
+  name: (ident) @constructor)
+
+; ----------------------------------------------------------------------------
+; "it" in paths - special implicit variable
+; ----------------------------------------------------------------------------
+(path "it" @variable.builtin)
+(path) @variable
+
+; ----------------------------------------------------------------------------
+; Function definitions
+; ----------------------------------------------------------------------------
+(fndef name: (ident) @function)
+
+; ----------------------------------------------------------------------------
+; Parameters
+; ----------------------------------------------------------------------------
+(param name: (ident) @variable.parameter)
+
+; ----------------------------------------------------------------------------
+; Struct member fields
+; ----------------------------------------------------------------------------
+(structdef_stmt name: (ident) @variable.member)
+(assign name: (ident) @variable.member)
+
+; ----------------------------------------------------------------------------
+; Module instance names
+; ----------------------------------------------------------------------------
+(mod_instance name: (ident) @constant)
