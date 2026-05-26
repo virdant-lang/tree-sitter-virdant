@@ -1,5 +1,6 @@
 [
     "enum"
+    "unused"
     "width"
     "builtin"
     "fn"
@@ -25,9 +26,6 @@
     "reg"
     "on"
     "of"
-    "true"
-    "false"
-    "dontcare"
 ] @keyword
 
 (moddef name: (ident) @function)
@@ -36,12 +34,17 @@
 (structdef name: (ident) @type)
 (enumdef name: (ident) @type)
 
+("true") @variable.builtin
+("false") @variable.builtin
+("dontcare") @variable.builtin
+
 (word) @number
 (nat) @number
 (str) @string
 
 ; "it" in paths - special implicit variable
 (path "it" @variable.builtin)
+(path) @variable
 
 ; Constructors - highlight the entire constructor node including @ and ctor name
 (expr_atom ctor: (ident) @constructor)
