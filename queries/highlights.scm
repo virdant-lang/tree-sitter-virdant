@@ -40,6 +40,9 @@
 (nat) @number
 (str) @string
 
+; "it" in paths - special implicit variable
+(path "it" @variable.builtin)
+
 ; Constructors - highlight the entire constructor node including @ and ctor name
 (expr_atom ctor: (ident) @constructor)
 (expr_primary ctor: (ident) @constructor)
