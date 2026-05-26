@@ -626,16 +626,16 @@
         },
         {
           "type": "SYMBOL",
-          "name": "moddef_stmt_drop"
+          "name": "moddef_stmt_unused"
         }
       ]
     },
-    "moddef_stmt_drop": {
+    "moddef_stmt_unused": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
-          "value": "drop"
+          "value": "unused"
         },
         {
           "type": "SYMBOL",
@@ -2012,6 +2012,39 @@
                 "type": "SYMBOL",
                 "name": "ident"
               }
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "e",
+              "content": {
+                "type": "SYMBOL",
+                "name": "expr_primary"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "["
+            },
+            {
+              "type": "STRING",
+              "value": "dyn"
+            },
+            {
+              "type": "FIELD",
+              "name": "index",
+              "content": {
+                "type": "SYMBOL",
+                "name": "expr"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "]"
             }
           ]
         },

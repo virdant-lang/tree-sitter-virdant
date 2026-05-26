@@ -595,6 +595,10 @@
         "required": false,
         "types": [
           {
+            "type": "expr",
+            "named": true
+          },
+          {
             "type": "index",
             "named": true
           }
@@ -939,15 +943,15 @@
           "named": true
         },
         {
-          "type": "moddef_stmt_drop",
-          "named": true
-        },
-        {
           "type": "moddef_stmt_if",
           "named": true
         },
         {
           "type": "moddef_stmt_match",
+          "named": true
+        },
+        {
+          "type": "moddef_stmt_unused",
           "named": true
         }
       ]
@@ -1031,30 +1035,15 @@
           "named": true
         },
         {
-          "type": "moddef_stmt_drop",
-          "named": true
-        },
-        {
           "type": "moddef_stmt_if",
           "named": true
         },
         {
           "type": "moddef_stmt_match",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "moddef_stmt_drop",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
+        },
         {
-          "type": "path",
+          "type": "moddef_stmt_unused",
           "named": true
         }
       ]
@@ -1169,6 +1158,21 @@
         },
         {
           "type": "pat",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "moddef_stmt_unused",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "path",
           "named": true
         }
       ]
@@ -1721,7 +1725,7 @@
     "named": false
   },
   {
-    "type": "drop",
+    "type": "dyn",
     "named": false
   },
   {
@@ -1822,6 +1826,10 @@
   },
   {
     "type": "union",
+    "named": false
+  },
+  {
+    "type": "unused",
     "named": false
   },
   {

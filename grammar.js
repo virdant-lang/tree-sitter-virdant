@@ -98,10 +98,10 @@ module.exports = grammar({
       $._moddef_stmt_socket,
       $.moddef_stmt_if,
       $.moddef_stmt_match,
-      $.moddef_stmt_drop,
+      $.moddef_stmt_unused,
     ),
 
-    moddef_stmt_drop: $ => seq("drop", $.path),
+    moddef_stmt_unused: $ => seq("unused", $.path),
 
     _moddef_stmt_component: $ => choice(
       seq("incoming", field("name", $.ident), ":", field("type", $.type), field("on", optional($.on_clause)), optional($.it_block)),
@@ -231,6 +231,7 @@ module.exports = grammar({
     expr_primary: $ => choice(
       seq(field("ofness", $.ofness), "(", field("args", optional($.arglist)), ")"),
       seq(field("e", $.expr_primary), "->", field("field", $.ident)),
+      seq(field("e", $.expr_primary), "[", "dyn", field("index", $.expr), "]"),
       seq(field("e", $.expr_primary), "[", field("index", $.index), "]"),
       seq(field("e", $.expr_primary), "[", field("index_hi", $.index), "..", field("index_lo", $.index), "]"),
       seq("@", field("ctor", $.ident), "(", field("args", optional($.arglist)), ")"),
