@@ -10,7 +10,6 @@
   "unused"
   "width"
   "builtin"
-  "fn"
   "socket"
   "import"
   "ext"
@@ -23,7 +22,7 @@
   "soci"
   "client"
   "server"
-  "if"
+  "when"
   "else"
   "match"
   "case"
@@ -34,14 +33,22 @@
   "on"
   "of"
   "dyn"
+  "it"
 ] @keyword
 
 ; ----------------------------------------------------------------------------
-; Boolean / special literals
+; Boolean literals (same color as numbers)
 ; ----------------------------------------------------------------------------
-("true") @variable.builtin
-("false") @variable.builtin
-("dontcare") @variable.builtin
+[
+  "true"
+  "false"
+  "dontcare"
+] @number
+
+; ----------------------------------------------------------------------------
+; Hole operator
+; ----------------------------------------------------------------------------
+"?" @punctuation.special
 
 ; ----------------------------------------------------------------------------
 ; Number literals
@@ -55,6 +62,13 @@
 (str) @string
 
 ; ----------------------------------------------------------------------------
+; Comments
+; ----------------------------------------------------------------------------
+(line_comment) @comment
+(doc_comment) @comment.documentation
+(doc_bang) @comment.documentation
+
+; ----------------------------------------------------------------------------
 ; Type names
 ; ----------------------------------------------------------------------------
 (type) @type
@@ -62,40 +76,36 @@
 (uniondef name: (ident) @type)
 (structdef name: (ident) @type)
 (enumdef name: (ident) @type)
+(builtindef name: (ident) @type)
 (socketdef name: (ident) @type)
 
 ; ----------------------------------------------------------------------------
 ; Enum variant names / constants
 ; ----------------------------------------------------------------------------
 (enumdef_stmt name: (ident) @constant)
-(expr_atom enumerant: (ident) @constructor)
+(expr_atom enumerant: (ident) @constant)
+(pat name: (ident) @constant)
 
 ; ----------------------------------------------------------------------------
 ; Union constructors
 ; ----------------------------------------------------------------------------
 (expr_atom ctor: (ident) @constructor)
-"@" @constructor
+(expr_ctor_call ctor: (ident) @constructor)
+(uniondef_stmt name: (ident) @constructor)
 
 ; ----------------------------------------------------------------------------
 ; Pattern constructors / enumerants
 ; ----------------------------------------------------------------------------
-(pat
-  "#" @constructor
-  name: (ident) @constructor)
-(pat
-  "@" @constructor
-  name: (ident) @constructor)
+[
+  "#"
+  "@"
+] @operator
 
 ; ----------------------------------------------------------------------------
-; "it" in paths - special implicit variable
+; Path identifiers (same color as component names)
 ; ----------------------------------------------------------------------------
-(path "it" @variable.builtin)
-(path) @variable
-
-; ----------------------------------------------------------------------------
-; Function definitions
-; ----------------------------------------------------------------------------
-(fndef name: (ident) @function)
+(path "it" @keyword)
+(path (ident) @variable)
 
 ; ----------------------------------------------------------------------------
 ; Parameters
@@ -105,10 +115,82 @@
 ; ----------------------------------------------------------------------------
 ; Struct member fields
 ; ----------------------------------------------------------------------------
-(structdef_stmt name: (ident) @variable.member)
-(assign name: (ident) @variable.member)
+(structdef_stmt name: (ident) @property)
+(assign name: (ident) @property)
+(expr_field field: (ident) @property)
 
 ; ----------------------------------------------------------------------------
-; Module instance names
+; Import package names (same color as module def name)
 ; ----------------------------------------------------------------------------
-(mod_instance name: (ident) @constant)
+(import (ident) @type)
+
+; ----------------------------------------------------------------------------
+; Module and socket instance ofness (same color as module def name)
+; Keep before named-field captures so @variable wins for name fields
+; ----------------------------------------------------------------------------
+(mod_instance (ident) @type)
+(socket_instance (ident) @type)
+
+; ----------------------------------------------------------------------------
+; Module and socket instance names
+; ----------------------------------------------------------------------------
+(mod_instance name: (ident) @variable)
+(socket_instance name: (ident) @variable)
+
+; ----------------------------------------------------------------------------
+; Component names
+; ----------------------------------------------------------------------------
+(component_incoming name: (ident) @variable)
+(component_outgoing name: (ident) @variable)
+(component_local name: (ident) @variable)
+
+; ----------------------------------------------------------------------------
+; Socket channel names  
+; ----------------------------------------------------------------------------
+(socketdef_stmt name: (ident) @property)
+
+; ----------------------------------------------------------------------------
+; Operators
+; ----------------------------------------------------------------------------
+[
+  ":="
+  "<="
+  ":=:"
+  "&&"
+  "||"
+  "^^"
+  "=="
+  "!="
+  "<"
+  ">"
+  "<="
+  ">="
+  "+"
+  "-"
+  "&"
+  "|"
+  "^"
+  "~"
+  "!"
+  "->"
+  "=>"
+  "="
+  ":"
+  "::"
+  "."
+  ".."
+] @operator
+
+; ----------------------------------------------------------------------------
+; Punctuation
+; ----------------------------------------------------------------------------
+[
+  "("
+  ")"
+  "{"
+  "}"
+  "["
+  "]"
+  ","
+  "$"
+] @punctuation.bracket

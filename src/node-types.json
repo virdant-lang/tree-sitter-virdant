@@ -1,18 +1,75 @@
 [
   {
+    "type": "arg_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expr_atom",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_compare",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_logical",
+          "named": true
+        },
+        {
+          "type": "expr_call",
+          "named": true
+        },
+        {
+          "type": "expr_ctor_call",
+          "named": true
+        },
+        {
+          "type": "expr_field",
+          "named": true
+        },
+        {
+          "type": "expr_index",
+          "named": true
+        },
+        {
+          "type": "expr_index_dyn",
+          "named": true
+        },
+        {
+          "type": "expr_index_range",
+          "named": true
+        },
+        {
+          "type": "expr_match",
+          "named": true
+        },
+        {
+          "type": "expr_struct",
+          "named": true
+        },
+        {
+          "type": "expr_when",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "assign",
     "named": true,
     "fields": {
-      "ctor": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "ident",
-            "named": true
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
@@ -29,23 +86,55 @@
       "required": false,
       "types": [
         {
-          "type": "assign",
-          "named": true
-        },
-        {
           "type": "expr_atom",
           "named": true
         },
         {
-          "type": "ident",
+          "type": "expr_bin_op",
           "named": true
         },
         {
-          "type": "nat",
+          "type": "expr_bin_op_compare",
           "named": true
         },
         {
-          "type": "pat",
+          "type": "expr_bin_op_logical",
+          "named": true
+        },
+        {
+          "type": "expr_call",
+          "named": true
+        },
+        {
+          "type": "expr_ctor_call",
+          "named": true
+        },
+        {
+          "type": "expr_field",
+          "named": true
+        },
+        {
+          "type": "expr_index",
+          "named": true
+        },
+        {
+          "type": "expr_index_dyn",
+          "named": true
+        },
+        {
+          "type": "expr_index_range",
+          "named": true
+        },
+        {
+          "type": "expr_match",
+          "named": true
+        },
+        {
+          "type": "expr_struct",
+          "named": true
+        },
+        {
+          "type": "expr_when",
           "named": true
         },
         {
@@ -54,6 +143,82 @@
         }
       ]
     }
+  },
+  {
+    "type": "assign_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "assign",
+          "named": true
+        },
+        {
+          "type": "expr_atom",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_compare",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_logical",
+          "named": true
+        },
+        {
+          "type": "expr_call",
+          "named": true
+        },
+        {
+          "type": "expr_ctor_call",
+          "named": true
+        },
+        {
+          "type": "expr_field",
+          "named": true
+        },
+        {
+          "type": "expr_index",
+          "named": true
+        },
+        {
+          "type": "expr_index_dyn",
+          "named": true
+        },
+        {
+          "type": "expr_index_range",
+          "named": true
+        },
+        {
+          "type": "expr_match",
+          "named": true
+        },
+        {
+          "type": "expr_struct",
+          "named": true
+        },
+        {
+          "type": "expr_when",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "bit_lit",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "builtindef",
@@ -75,14 +240,659 @@
       "required": false,
       "types": [
         {
-          "type": "doc_comment",
+          "type": "doc_string",
           "named": true
         },
         {
           "type": "ident",
           "named": true
+        },
+        {
+          "type": "kind",
+          "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "component_incoming",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "mod_stmt_block",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      },
+      "on": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_compare",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_logical",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          },
+          {
+            "type": "expr_match",
+            "named": true
+          },
+          {
+            "type": "expr_struct",
+            "named": true
+          },
+          {
+            "type": "expr_when",
+            "named": true
+          },
+          {
+            "type": "on",
+            "named": false
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "doc_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "component_local",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "mod_stmt_block",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      },
+      "on": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_compare",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_logical",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          },
+          {
+            "type": "expr_match",
+            "named": true
+          },
+          {
+            "type": "expr_struct",
+            "named": true
+          },
+          {
+            "type": "expr_when",
+            "named": true
+          },
+          {
+            "type": "on",
+            "named": false
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      },
+      "storage": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "reg",
+            "named": false
+          },
+          {
+            "type": "wire",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "doc_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "component_outgoing",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "mod_stmt_block",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      },
+      "on": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_compare",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_logical",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          },
+          {
+            "type": "expr_match",
+            "named": true
+          },
+          {
+            "type": "expr_struct",
+            "named": true
+          },
+          {
+            "type": "expr_when",
+            "named": true
+          },
+          {
+            "type": "on",
+            "named": false
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      },
+      "storage": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "reg",
+            "named": false
+          },
+          {
+            "type": "wire",
+            "named": false
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "doc_string",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "doc_string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "doc_comment",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "driver_bidirectional",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "path",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "driver_continuous",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "path",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_compare",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_logical",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          },
+          {
+            "type": "expr_match",
+            "named": true
+          },
+          {
+            "type": "expr_struct",
+            "named": true
+          },
+          {
+            "type": "expr_when",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "driver_latched",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "path",
+            "named": true
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_compare",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_logical",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          },
+          {
+            "type": "expr_match",
+            "named": true
+          },
+          {
+            "type": "expr_struct",
+            "named": true
+          },
+          {
+            "type": "expr_when",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
     }
   },
   {
@@ -105,7 +915,7 @@
       "required": true,
       "types": [
         {
-          "type": "doc_comment",
+          "type": "doc_string",
           "named": true
         },
         {
@@ -113,7 +923,7 @@
           "named": true
         },
         {
-          "type": "nat",
+          "type": "width",
           "named": true
         }
       ]
@@ -123,16 +933,6 @@
     "type": "enumdef_stmt",
     "named": true,
     "fields": {
-      "ctor": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "ident",
-            "named": true
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
@@ -149,11 +949,7 @@
       "required": false,
       "types": [
         {
-          "type": "assign",
-          "named": true
-        },
-        {
-          "type": "doc_comment",
+          "type": "doc_string",
           "named": true
         },
         {
@@ -161,15 +957,51 @@
           "named": true
         },
         {
-          "type": "ident",
+          "type": "expr_bin_op",
           "named": true
         },
         {
-          "type": "nat",
+          "type": "expr_bin_op_compare",
           "named": true
         },
         {
-          "type": "pat",
+          "type": "expr_bin_op_logical",
+          "named": true
+        },
+        {
+          "type": "expr_call",
+          "named": true
+        },
+        {
+          "type": "expr_ctor_call",
+          "named": true
+        },
+        {
+          "type": "expr_field",
+          "named": true
+        },
+        {
+          "type": "expr_index",
+          "named": true
+        },
+        {
+          "type": "expr_index_dyn",
+          "named": true
+        },
+        {
+          "type": "expr_index_range",
+          "named": true
+        },
+        {
+          "type": "expr_match",
+          "named": true
+        },
+        {
+          "type": "expr_struct",
+          "named": true
+        },
+        {
+          "type": "expr_when",
           "named": true
         },
         {
@@ -184,7 +1016,7 @@
     "named": true,
     "fields": {
       "ctor": {
-        "multiple": true,
+        "multiple": false,
         "required": false,
         "types": [
           {
@@ -209,7 +1041,7 @@
       "required": false,
       "types": [
         {
-          "type": "assign",
+          "type": "bit_lit",
           "named": true
         },
         {
@@ -217,15 +1049,51 @@
           "named": true
         },
         {
-          "type": "ident",
+          "type": "expr_bin_op",
           "named": true
         },
         {
-          "type": "nat",
+          "type": "expr_bin_op_compare",
           "named": true
         },
         {
-          "type": "pat",
+          "type": "expr_bin_op_logical",
+          "named": true
+        },
+        {
+          "type": "expr_call",
+          "named": true
+        },
+        {
+          "type": "expr_ctor_call",
+          "named": true
+        },
+        {
+          "type": "expr_field",
+          "named": true
+        },
+        {
+          "type": "expr_index",
+          "named": true
+        },
+        {
+          "type": "expr_index_dyn",
+          "named": true
+        },
+        {
+          "type": "expr_index_range",
+          "named": true
+        },
+        {
+          "type": "expr_match",
+          "named": true
+        },
+        {
+          "type": "expr_struct",
+          "named": true
+        },
+        {
+          "type": "expr_when",
           "named": true
         },
         {
@@ -241,27 +1109,499 @@
           "named": true
         },
         {
-          "type": "word",
+          "type": "word_lit",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "fndef",
+    "type": "expr_bin_op",
     "named": true,
     "fields": {
-      "ctor": {
+      "lhs": {
         "multiple": true,
-        "required": false,
+        "required": true,
         "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "&",
+            "named": false
+          },
+          {
+            "type": "+",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": "^",
+            "named": false
+          },
+          {
+            "type": "|",
+            "named": false
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "expr_bin_op_compare",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_compare",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "!=",
+            "named": false
+          },
+          {
+            "type": "<",
+            "named": false
+          },
+          {
+            "type": "<=",
+            "named": false
+          },
+          {
+            "type": "==",
+            "named": false
+          },
+          {
+            "type": ">",
+            "named": false
+          },
+          {
+            "type": ">=",
+            "named": false
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "expr_bin_op_logical",
+    "named": true,
+    "fields": {
+      "lhs": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_compare",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_logical",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      },
+      "op": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "&&",
+            "named": false
+          },
+          {
+            "type": "^^",
+            "named": false
+          },
+          {
+            "type": "||",
+            "named": false
+          }
+        ]
+      },
+      "rhs": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_compare",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "expr_call",
+    "named": true,
+    "fields": {
+      "func": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "::",
+            "named": false
+          },
           {
             "type": "ident",
             "named": true
           }
         ]
-      },
-      "name": {
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "arg_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expr_ctor_call",
+    "named": true,
+    "fields": {
+      "ctor": {
         "multiple": false,
         "required": true,
         "types": [
@@ -273,35 +1613,532 @@
       }
     },
     "children": {
-      "multiple": true,
-      "required": true,
+      "multiple": false,
+      "required": false,
       "types": [
         {
-          "type": "assign",
+          "type": "arg_list",
           "named": true
-        },
-        {
-          "type": "doc_comment",
-          "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "expr_field",
+    "named": true,
+    "fields": {
+      "expr": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          }
+        ]
+      },
+      "field": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "expr_index",
+    "named": true,
+    "fields": {
+      "expr": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          }
+        ]
+      },
+      "index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "expr_index_dyn",
+    "named": true,
+    "fields": {
+      "expr": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          }
+        ]
+      },
+      "index": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "!",
+            "named": false
+          },
+          {
+            "type": "-",
+            "named": false
+          },
+          {
+            "type": ":",
+            "named": false
+          },
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_compare",
+            "named": true
+          },
+          {
+            "type": "expr_bin_op_logical",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          },
+          {
+            "type": "expr_match",
+            "named": true
+          },
+          {
+            "type": "expr_struct",
+            "named": true
+          },
+          {
+            "type": "expr_when",
+            "named": true
+          },
+          {
+            "type": "type",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "expr_index_range",
+    "named": true,
+    "fields": {
+      "expr": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "expr_atom",
+            "named": true
+          },
+          {
+            "type": "expr_call",
+            "named": true
+          },
+          {
+            "type": "expr_ctor_call",
+            "named": true
+          },
+          {
+            "type": "expr_field",
+            "named": true
+          },
+          {
+            "type": "expr_index",
+            "named": true
+          },
+          {
+            "type": "expr_index_dyn",
+            "named": true
+          },
+          {
+            "type": "expr_index_range",
+            "named": true
+          }
+        ]
+      },
+      "high": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      },
+      "low": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "index",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "expr_match",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
         {
           "type": "expr_atom",
           "named": true
         },
         {
-          "type": "ident",
+          "type": "expr_bin_op",
           "named": true
         },
         {
-          "type": "nat",
+          "type": "expr_bin_op_compare",
           "named": true
         },
         {
-          "type": "param",
+          "type": "expr_bin_op_logical",
+          "named": true
+        },
+        {
+          "type": "expr_call",
+          "named": true
+        },
+        {
+          "type": "expr_ctor_call",
+          "named": true
+        },
+        {
+          "type": "expr_field",
+          "named": true
+        },
+        {
+          "type": "expr_index",
+          "named": true
+        },
+        {
+          "type": "expr_index_dyn",
+          "named": true
+        },
+        {
+          "type": "expr_index_range",
+          "named": true
+        },
+        {
+          "type": "expr_match",
+          "named": true
+        },
+        {
+          "type": "expr_match_arm",
+          "named": true
+        },
+        {
+          "type": "expr_struct",
+          "named": true
+        },
+        {
+          "type": "expr_when",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expr_match_arm",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expr_atom",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_compare",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_logical",
+          "named": true
+        },
+        {
+          "type": "expr_call",
+          "named": true
+        },
+        {
+          "type": "expr_ctor_call",
+          "named": true
+        },
+        {
+          "type": "expr_field",
+          "named": true
+        },
+        {
+          "type": "expr_index",
+          "named": true
+        },
+        {
+          "type": "expr_index_dyn",
+          "named": true
+        },
+        {
+          "type": "expr_index_range",
+          "named": true
+        },
+        {
+          "type": "expr_match",
+          "named": true
+        },
+        {
+          "type": "expr_struct",
+          "named": true
+        },
+        {
+          "type": "expr_when",
+          "named": true
+        },
+        {
+          "type": "mod_stmt_block",
           "named": true
         },
         {
           "type": "pat",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expr_struct",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "assign_list",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expr_when",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expr_when_arm",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "expr_when_arm",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expr_atom",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_compare",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_logical",
+          "named": true
+        },
+        {
+          "type": "expr_call",
+          "named": true
+        },
+        {
+          "type": "expr_ctor_call",
+          "named": true
+        },
+        {
+          "type": "expr_field",
+          "named": true
+        },
+        {
+          "type": "expr_index",
+          "named": true
+        },
+        {
+          "type": "expr_index_dyn",
+          "named": true
+        },
+        {
+          "type": "expr_index_range",
+          "named": true
+        },
+        {
+          "type": "expr_match",
+          "named": true
+        },
+        {
+          "type": "expr_struct",
+          "named": true
+        },
+        {
+          "type": "expr_when",
+          "named": true
+        },
+        {
+          "type": "mod_stmt_block",
           "named": true
         },
         {
@@ -327,6 +2164,21 @@
     }
   },
   {
+    "type": "index",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "nat",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "item",
     "named": true,
     "fields": {},
@@ -343,10 +2195,6 @@
           "named": true
         },
         {
-          "type": "fndef",
-          "named": true
-        },
-        {
           "type": "moddef",
           "named": true
         },
@@ -360,6 +2208,21 @@
         },
         {
           "type": "uniondef",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "kind",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ident",
           "named": true
         }
       ]
@@ -385,7 +2248,7 @@
       "required": true,
       "types": [
         {
-          "type": "doc_comment",
+          "type": "doc_string",
           "named": true
         },
         {
@@ -400,42 +2263,67 @@
     }
   },
   {
-    "type": "mod_stmt_block",
+    "type": "mod_match_arm",
     "named": true,
-    "fields": {
-      "ctor": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "ident",
-            "named": true
-          }
-        ]
-      }
-    },
+    "fields": {},
     "children": {
       "multiple": true,
       "required": false,
       "types": [
         {
-          "type": "assign",
-          "named": true
-        },
-        {
-          "type": "doc_comment",
-          "named": true
-        },
-        {
           "type": "expr_atom",
           "named": true
         },
         {
-          "type": "ident",
+          "type": "expr_bin_op",
           "named": true
         },
         {
-          "type": "mod_instance",
+          "type": "expr_bin_op_compare",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_logical",
+          "named": true
+        },
+        {
+          "type": "expr_call",
+          "named": true
+        },
+        {
+          "type": "expr_ctor_call",
+          "named": true
+        },
+        {
+          "type": "expr_field",
+          "named": true
+        },
+        {
+          "type": "expr_index",
+          "named": true
+        },
+        {
+          "type": "expr_index_dyn",
+          "named": true
+        },
+        {
+          "type": "expr_index_range",
+          "named": true
+        },
+        {
+          "type": "expr_match",
+          "named": true
+        },
+        {
+          "type": "expr_struct",
+          "named": true
+        },
+        {
+          "type": "expr_when",
+          "named": true
+        },
+        {
+          "type": "mod_match_stmt",
           "named": true
         },
         {
@@ -443,15 +2331,11 @@
           "named": true
         },
         {
-          "type": "nat",
+          "type": "mod_when_stmt",
           "named": true
         },
         {
           "type": "pat",
-          "named": true
-        },
-        {
-          "type": "path",
           "named": true
         },
         {
@@ -462,19 +2346,229 @@
     }
   },
   {
+    "type": "mod_match_stmt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expr_atom",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_compare",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_logical",
+          "named": true
+        },
+        {
+          "type": "expr_call",
+          "named": true
+        },
+        {
+          "type": "expr_ctor_call",
+          "named": true
+        },
+        {
+          "type": "expr_field",
+          "named": true
+        },
+        {
+          "type": "expr_index",
+          "named": true
+        },
+        {
+          "type": "expr_index_dyn",
+          "named": true
+        },
+        {
+          "type": "expr_index_range",
+          "named": true
+        },
+        {
+          "type": "expr_match",
+          "named": true
+        },
+        {
+          "type": "expr_struct",
+          "named": true
+        },
+        {
+          "type": "expr_when",
+          "named": true
+        },
+        {
+          "type": "mod_match_arm",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "mod_stmt_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "component_incoming",
+          "named": true
+        },
+        {
+          "type": "component_local",
+          "named": true
+        },
+        {
+          "type": "component_outgoing",
+          "named": true
+        },
+        {
+          "type": "driver_bidirectional",
+          "named": true
+        },
+        {
+          "type": "driver_continuous",
+          "named": true
+        },
+        {
+          "type": "driver_latched",
+          "named": true
+        },
+        {
+          "type": "mod_instance",
+          "named": true
+        },
+        {
+          "type": "mod_match_stmt",
+          "named": true
+        },
+        {
+          "type": "mod_when_stmt",
+          "named": true
+        },
+        {
+          "type": "socket_instance",
+          "named": true
+        },
+        {
+          "type": "unused_stmt",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "mod_when_arm",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "expr_atom",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_compare",
+          "named": true
+        },
+        {
+          "type": "expr_bin_op_logical",
+          "named": true
+        },
+        {
+          "type": "expr_call",
+          "named": true
+        },
+        {
+          "type": "expr_ctor_call",
+          "named": true
+        },
+        {
+          "type": "expr_field",
+          "named": true
+        },
+        {
+          "type": "expr_index",
+          "named": true
+        },
+        {
+          "type": "expr_index_dyn",
+          "named": true
+        },
+        {
+          "type": "expr_index_range",
+          "named": true
+        },
+        {
+          "type": "expr_match",
+          "named": true
+        },
+        {
+          "type": "expr_struct",
+          "named": true
+        },
+        {
+          "type": "expr_when",
+          "named": true
+        },
+        {
+          "type": "mod_match_stmt",
+          "named": true
+        },
+        {
+          "type": "mod_stmt_block",
+          "named": true
+        },
+        {
+          "type": "mod_when_stmt",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "mod_when_stmt",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "mod_when_arm",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "moddef",
     "named": true,
     "fields": {
-      "ctor": {
-        "multiple": true,
-        "required": false,
-        "types": [
-          {
-            "type": "ident",
-            "named": true
-          }
-        ]
-      },
       "name": {
         "multiple": false,
         "required": true,
@@ -491,19 +2585,31 @@
       "required": false,
       "types": [
         {
-          "type": "assign",
+          "type": "component_incoming",
           "named": true
         },
         {
-          "type": "doc_comment",
+          "type": "component_local",
           "named": true
         },
         {
-          "type": "expr_atom",
+          "type": "component_outgoing",
           "named": true
         },
         {
-          "type": "ident",
+          "type": "doc_string",
+          "named": true
+        },
+        {
+          "type": "driver_bidirectional",
+          "named": true
+        },
+        {
+          "type": "driver_continuous",
+          "named": true
+        },
+        {
+          "type": "driver_latched",
           "named": true
         },
         {
@@ -511,23 +2617,19 @@
           "named": true
         },
         {
-          "type": "mod_stmt_block",
+          "type": "mod_match_stmt",
           "named": true
         },
         {
-          "type": "nat",
+          "type": "mod_when_stmt",
           "named": true
         },
         {
-          "type": "pat",
+          "type": "socket_instance",
           "named": true
         },
         {
-          "type": "path",
-          "named": true
-        },
-        {
-          "type": "type",
+          "type": "unused_stmt",
           "named": true
         }
       ]
@@ -553,11 +2655,26 @@
       "required": true,
       "types": [
         {
-          "type": "doc_comment",
+          "type": "doc_string",
           "named": true
         },
         {
           "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "params",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "param",
           "named": true
         }
       ]
@@ -579,23 +2696,38 @@
       }
     },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
+        {
+          "type": "bit_lit",
+          "named": true
+        },
         {
           "type": "ident",
           "named": true
         },
         {
-          "type": "nat",
+          "type": "pat_list",
           "named": true
         },
+        {
+          "type": "word_lit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "pat_list",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
           "type": "pat",
-          "named": true
-        },
-        {
-          "type": "word",
           "named": true
         }
       ]
@@ -611,6 +2743,70 @@
       "types": [
         {
           "type": "ident",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "socket_instance",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "mod_stmt_block",
+            "named": true
+          }
+        ]
+      },
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      },
+      "of": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "::",
+            "named": false
+          },
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      },
+      "role": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "client",
+            "named": false
+          },
+          {
+            "type": "server",
+            "named": false
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "doc_string",
           "named": true
         }
       ]
@@ -636,7 +2832,7 @@
       "required": false,
       "types": [
         {
-          "type": "doc_comment",
+          "type": "doc_string",
           "named": true
         },
         {
@@ -649,17 +2845,24 @@
   {
     "type": "socketdef_stmt",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ident",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "doc_comment",
-          "named": true
-        },
-        {
-          "type": "ident",
+          "type": "doc_string",
           "named": true
         },
         {
@@ -713,7 +2916,7 @@
       "required": false,
       "types": [
         {
-          "type": "doc_comment",
+          "type": "doc_string",
           "named": true
         },
         {
@@ -743,7 +2946,7 @@
       "required": true,
       "types": [
         {
-          "type": "doc_comment",
+          "type": "doc_string",
           "named": true
         },
         {
@@ -796,7 +2999,7 @@
       "required": false,
       "types": [
         {
-          "type": "doc_comment",
+          "type": "doc_string",
           "named": true
         },
         {
@@ -826,11 +3029,61 @@
       "required": false,
       "types": [
         {
-          "type": "doc_comment",
+          "type": "doc_string",
           "named": true
         },
         {
-          "type": "param",
+          "type": "params",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "unused_stmt",
+    "named": true,
+    "fields": {
+      "path": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "path",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "width",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "nat",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "word_lit",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "nat",
+          "named": true
+        },
+        {
+          "type": "word",
           "named": true
         }
       ]
@@ -1013,16 +3266,8 @@
     "named": false
   },
   {
-    "type": "fn",
-    "named": false
-  },
-  {
     "type": "ident",
     "named": true
-  },
-  {
-    "type": "if",
-    "named": false
   },
   {
     "type": "import",
@@ -1102,6 +3347,10 @@
   },
   {
     "type": "unused",
+    "named": false
+  },
+  {
+    "type": "when",
     "named": false
   },
   {
