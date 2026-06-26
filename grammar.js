@@ -39,6 +39,29 @@ module.exports = grammar({
       $.socketdef,
     )),
 
+    // ---- Annotations ----
+    // Annotation = "@" Ident "(" Nat ")" | "@" Ident "(" Str ")" | "@" Ident
+    annotation: $ => choice(
+      seq(
+        '@',
+        field('name', $.ident),
+        '(',
+        field('value', $.nat),
+        ')',
+      ),
+      seq(
+        '@',
+        field('name', $.ident),
+        '(',
+        field('value', $.str),
+        ')',
+      ),
+      seq(
+        '@',
+        field('name', $.ident),
+      ),
+    ),
+
     // ---- Comments (extras) ----
     // Logos skips //[^\n]*, but //> and //! are separate tokens.
     // line_comment regex excludes //> and //! to avoid overlap.
@@ -73,10 +96,10 @@ module.exports = grammar({
     ),
 
     // ---- Module definition ----
-    // ModDef = DocString? "ext"? "export"? "mod" Ident "{"
-    //          ModDefStmt* "}"
+    // ModDef = DocString? Annotations "ext"? "export"? "mod" Ident "{" ModDefStmt* "}"
 
     moddef: $ => seq(
+      repeat($.annotation),
       optional('ext'),
       optional('export'),
       'mod',
@@ -99,10 +122,10 @@ module.exports = grammar({
     ),
 
     // ---- Struct definition ----
-    // StructDef = DocString? "struct" "type" Ident "{"
-    //             StructDefStmt* "}"
+    // StructDef = DocString? Annotations "struct" "type" Ident "{" StructDefStmt* "}"
 
     structdef: $ => seq(
+      repeat($.annotation),
       'struct',
       'type',
       field('name', $.ident),
@@ -111,18 +134,19 @@ module.exports = grammar({
       '}',
     ),
 
-    // StructDefStmt = DocString? Ident ":" Type
+    // StructDefStmt = DocString? Annotations Ident ":" Type
     structdef_stmt: $ => seq(
+      repeat($.annotation),
       field('name', $.ident),
       ':',
       field('type', $.type),
     ),
 
     // ---- Union definition ----
-    // UnionDef = DocString? "union" "type" Ident "{"
-    //            UnionDefStmt* "}"
+    // UnionDef = DocString? Annotations "union" "type" Ident "{" UnionDefStmt* "}"
 
     uniondef: $ => seq(
+      repeat($.annotation),
       'union',
       'type',
       field('name', $.ident),
@@ -131,17 +155,18 @@ module.exports = grammar({
       '}',
     ),
 
-    // UnionDefStmt = DocString? Ident ParamList?
+    // UnionDefStmt = DocString? Annotations Ident ParamList?
     uniondef_stmt: $ => seq(
+      repeat($.annotation),
       field('name', $.ident),
       optional($.param_list),
     ),
 
     // ---- Enum definition ----
-    // EnumDef = DocString? "enum" "type" Ident "{"
-    //           EnumDefStmt* "}"
+    // EnumDef = DocString? Annotations "enum" "type" Ident "{" EnumDefStmt* "}"
 
     enumdef: $ => seq(
+      repeat($.annotation),
       'enum',
       'type',
       field('name', $.ident),
@@ -150,18 +175,19 @@ module.exports = grammar({
       '}',
     ),
 
-    // EnumDefStmt = DocString? Ident "=" Expr
+    // EnumDefStmt = DocString? Annotations Ident "=" Expr
     enumdef_stmt: $ => seq(
+      repeat($.annotation),
       field('name', $.ident),
       '=',
       field('value', $.expr),
     ),
 
     // ---- Builtin definition ----
-    // BuiltinDef = DocString? "builtin" "type" Ident Generics?
-    //              "{" "}"
+    // BuiltinDef = DocString? Annotations "builtin" "type" Ident Generics? "{" "}"
 
     builtindef: $ => seq(
+      repeat($.annotation),
       'builtin',
       'type',
       field('name', $.ident),
@@ -171,10 +197,10 @@ module.exports = grammar({
     ),
 
     // ---- Socket definition ----
-    // SocketDef = DocString? "socket" Ident "{"
-    //             SocketDefStmt* "}"
+    // SocketDef = DocString? Annotations "socket" Ident "{" SocketDefStmt* "}"
 
     socketdef: $ => seq(
+      repeat($.annotation),
       'socket',
       field('name', $.ident),
       '{',
@@ -182,8 +208,9 @@ module.exports = grammar({
       '}',
     ),
 
-    // SocketDefStmt = DocString? ("cosi"|"soci") Ident ":" Type
+    // SocketDefStmt = DocString? Annotations ("cosi"|"soci") Ident ":" Type
     socketdef_stmt: $ => seq(
+      repeat($.annotation),
       choice('cosi', 'soci'),
       field('name', $.ident),
       ':',
@@ -204,8 +231,9 @@ module.exports = grammar({
       ')',
     ),
 
-    // Param = DocString? Ident ":" Type
+    // Param = DocString? Annotations Ident ":" Type
     param: $ => seq(
+      repeat($.annotation),
       field('name', $.ident),
       ':',
       field('type', $.type),
@@ -260,6 +288,7 @@ module.exports = grammar({
     //   "reg" Ident ":" Type OnClause? ItBlock?
 
     component_incoming: $ => seq(
+      repeat($.annotation),
       'incoming',
       field('name', $.ident),
       ':',
@@ -269,6 +298,7 @@ module.exports = grammar({
     ),
 
     component_outgoing: $ => seq(
+      repeat($.annotation),
       'outgoing',
       optional(choice('wire', 'reg')),
       field('name', $.ident),
@@ -280,6 +310,7 @@ module.exports = grammar({
 
     component_local: $ => choice(
       seq(
+        repeat($.annotation),
         'wire',
         field('name', $.ident),
         ':',
@@ -288,6 +319,7 @@ module.exports = grammar({
         optional(field('body', $.block)),
       ),
       seq(
+        repeat($.annotation),
         'reg',
         field('name', $.ident),
         ':',
@@ -322,10 +354,10 @@ module.exports = grammar({
     ),
 
     // ---- Module instance ----
-    // ModDefStmtInstance = DocString? "mod" Ident "of"
-    //                      Ofness ItBlock?
+    // ModDefStmtInstance = DocString? Annotations "mod" Ident "of" Ofness ItBlock?
 
     mod_instance: $ => seq(
+      repeat($.annotation),
       'mod',
       field('name', $.ident),
       'of',
@@ -334,10 +366,10 @@ module.exports = grammar({
     ),
 
     // ---- Socket instance ----
-    // ModDefStmtSocket = DocString? ("client"|"server") "socket"
-    //                    Ident "of" Ofness ItBlock?
+    // ModDefStmtSocket = DocString? Annotations ("client"|"server") "socket" Ident "of" Ofness ItBlock?
 
     socket_instance: $ => seq(
+      repeat($.annotation),
       choice('client', 'server'),
       'socket',
       field('name', $.ident),
@@ -595,8 +627,7 @@ module.exports = grammar({
     ),
 
     // ---- Patterns ----
-    // Pat = "#" Ident | "@" Ident | "@" Ident "(" PatList ")"
-    //       | WordLit | BitLit | Ident | "dontcare"
+    // Pat = "#" Ident | "@" Ident | "@" Ident "(" PatList ")" | WordLit | BitLit | Ident | "dontcare"
 
     pat: $ => choice(
       seq('#', field('name', $.ident)),
