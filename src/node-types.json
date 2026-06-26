@@ -1881,11 +1881,13 @@
   },
   {
     "type": "doc_bang",
-    "named": true
+    "named": true,
+    "extra": true
   },
   {
     "type": "doc_comment",
-    "named": true
+    "named": true,
+    "extra": true
   },
   {
     "type": "dontcare",
@@ -1933,7 +1935,8 @@
   },
   {
     "type": "line_comment",
-    "named": true
+    "named": true,
+    "extra": true
   },
   {
     "type": "match",
