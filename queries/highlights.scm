@@ -1,209 +1,308 @@
-; ---------------------------------------------------------------------------
-; Keywords
-; ---------------------------------------------------------------------------
-[
-  "enum"
-  "unused"
-  "builtin"
-  "socket"
-  "import"
-  "ext"
-  "export"
-  "mod"
-  "union"
-  "struct"
-  "type"
-  "cosi"
-  "soci"
-  "client"
-  "server"
-  "when"
-  "else"
-  "match"
-  "case"
-  "incoming"
-  "outgoing"
-  "wire"
-  "reg"
-  "on"
-  "of"
-  "dyn"
-  "it"
-] @keyword
+; Virdant highlights
+;
+; Ordering follows the Neovim convention: general captures come first and
+; more specific captures later override them.
 
 ; ---------------------------------------------------------------------------
-; Boolean and dontcare literals
+; Identifiers (fallback)
 ; ---------------------------------------------------------------------------
-[
-  "true"
-  "false"
-  "dontcare"
-] @number
 
-; ---------------------------------------------------------------------------
-; Hole operator
-; ---------------------------------------------------------------------------
-"?" @punctuation.special
+(identifier) @variable
 
-; ---------------------------------------------------------------------------
-; Number literals
-; ---------------------------------------------------------------------------
-(word) @number
-(nat) @number
+; Every segment of a path after the first is a member access: `a.b.c`
+(path
+  "."
+  .
+  (identifier) @variable.member)
 
-; ---------------------------------------------------------------------------
-; String literals
-; ---------------------------------------------------------------------------
-(str) @string
+(it) @variable.builtin
 
 ; ---------------------------------------------------------------------------
 ; Comments
 ; ---------------------------------------------------------------------------
-(line_comment) @comment
-(doc_comment) @comment.documentation
-(doc_bang) @comment.documentation
+
+(comment) @comment @spell
+
+(doc_comment) @comment.documentation @spell
+
+(doc_bang) @comment.documentation @spell
 
 ; ---------------------------------------------------------------------------
-; Type names
+; Keywords
 ; ---------------------------------------------------------------------------
-(type) @type
-(moddef name: (ident) @type)
-(uniondef name: (ident) @type)
-(structdef name: (ident) @type)
-(enumdef name: (ident) @type)
-(builtindef name: (ident) @type)
-(socketdef name: (ident) @type)
-(generics name: (ident) @type.definition)
-(kind name: (ident) @type)
-(call_expr func: (ofness name: (ident) @type))
-(call_expr func: (ofness package: (ident) @type))
 
-; ---------------------------------------------------------------------------
-; Enum variant names / constants
-; ---------------------------------------------------------------------------
-(enumdef_stmt name: (ident) @constant)
-(expr_atom enumerant: (ident) @constant)
+"import" @keyword.import
 
-
-; ---------------------------------------------------------------------------
-; Union constructors
-; ---------------------------------------------------------------------------
-(expr_atom ctor: (ident) @constructor)
-(ctor_call_expr ctor: (ident) @constructor)
-(uniondef_stmt name: (ident) @constructor)
-
-; ---------------------------------------------------------------------------
-; Pattern constructors / enumerants
-; ---------------------------------------------------------------------------
 [
-  "#"
-  "@"
-] @operator
+  "mod"
+  "socket"
+  "platform"
+  "of"
+  "on"
+  "for"
+  "unused"
+  "dependson"
+] @keyword
 
-; Pattern #Ident - enum constant ref
-(pat "#" (ident) @constant)
+[
+  "struct"
+  "union"
+  "enum"
+  "builtin"
+  "type"
+] @keyword.type
 
-; Pattern @Ident or @Ident(...) - constructor match
-(pat "@" (ident) @constructor)
+[
+  "ext"
+  "export"
+  "incoming"
+  "outgoing"
+  "wire"
+  "reg"
+  "client"
+  "server"
+  "cosi"
+  "soci"
+  "dyn"
+] @keyword.modifier
 
-; Pattern bare ident - variable binding
-(pat (ident) @variable)
-
-; ---------------------------------------------------------------------------
-; Path identifiers
-; ---------------------------------------------------------------------------
-(path "it" @keyword)
-(path (ident) @variable)
-
-; ---------------------------------------------------------------------------
-; Parameters
-; ---------------------------------------------------------------------------
-(param name: (ident) @variable.parameter)
-
-; ---------------------------------------------------------------------------
-; Struct member fields
-; ---------------------------------------------------------------------------
-(structdef_stmt name: (ident) @property)
-(assign name: (ident) @property)
-(field_expr field: (ident) @property)
-
-; ---------------------------------------------------------------------------
-; Import package names
-; ---------------------------------------------------------------------------
-(import name: (ident) @type)
-
-; ---------------------------------------------------------------------------
-; Module and socket instance ofness
-; ---------------------------------------------------------------------------
-(mod_instance module: (ofness) @type)
-(socket_instance socket: (ofness) @type)
+[
+  "when"
+  "match"
+  "case"
+  "else"
+] @keyword.conditional
 
 ; ---------------------------------------------------------------------------
-; Module and socket instance names
+; Literals
 ; ---------------------------------------------------------------------------
-(mod_instance name: (ident) @variable)
-(socket_instance name: (ident) @variable)
+
+[
+  (nat_literal)
+  (word_literal)
+] @number
+
+(bit_literal) @boolean
+
+(string_literal) @string
+
+(escape_sequence) @string.escape
+
+[
+  (dontcare)
+  (hole)
+] @constant.builtin
 
 ; ---------------------------------------------------------------------------
-; Component names
+; Packages / modules
 ; ---------------------------------------------------------------------------
-(component_incoming name: (ident) @variable)
-(component_outgoing name: (ident) @variable)
-(component_local name: (ident) @variable)
+
+(import
+  package: (identifier) @module)
+
+(ofness
+  package: (identifier) @module)
 
 ; ---------------------------------------------------------------------------
-; Socket channel names
+; Type definitions
 ; ---------------------------------------------------------------------------
-(socketdef_stmt name: (ident) @property)
+
+(mod_def
+  name: (identifier) @type.definition)
+
+(struct_def
+  name: (identifier) @type.definition)
+
+(union_def
+  name: (identifier) @type.definition)
+
+(enum_def
+  name: (identifier) @type.definition)
+
+(builtin_def
+  name: (identifier) @type.definition)
+
+(socket_def
+  name: (identifier) @type.definition)
+
+(platform_def
+  name: (identifier) @type.definition)
+
+; `builtin type Word[n : Nat] {}`
+(generics
+  name: (identifier) @variable.parameter)
+
+(kind
+  name: (identifier) @type.builtin)
 
 ; ---------------------------------------------------------------------------
-; Annotations
+; Type references
 ; ---------------------------------------------------------------------------
-(annotation name: (ident) @annotation)
-(annotation value: (str) @string)
-(annotation value: (nat) @number)
+
+(type
+  name: (ofness
+    name: (identifier) @type))
+
+; Types defined in the standard library (`lib/builtin.vir`)
+(type
+  name: (ofness
+    !package
+    name: (identifier) @type.builtin)
+  (#any-of? @type.builtin "Bit" "Word" "Clock" "Reset" "Valid"))
+
+(mod_instance
+  module: (ofness
+    name: (identifier) @type))
+
+(socket_instance
+  socket: (ofness
+    name: (identifier) @type))
+
+(for_clause
+  platform: (ofness
+    name: (identifier) @type))
+
+; ---------------------------------------------------------------------------
+; Declarations
+; ---------------------------------------------------------------------------
+
+; Ports, wires, and registers
+(component
+  name: (identifier) @variable)
+
+; Submodule and socket instances
+(mod_instance
+  name: (identifier) @variable)
+
+(socket_instance
+  name: (identifier) @variable)
+
+; Constructor parameters
+(param
+  name: (identifier) @variable.parameter)
+
+; Struct fields and socket channels
+(field_def
+  name: (identifier) @variable.member)
+
+(channel_def
+  name: (identifier) @variable.member)
+
+; ---------------------------------------------------------------------------
+; Expressions
+; ---------------------------------------------------------------------------
+
+; `foo(x)`, `pkg::foo(x)`
+(call_expression
+  function: (ofness
+    name: (identifier) @function.call))
+
+; `x->field`
+(field_expression
+  field: (identifier) @variable.member)
+
+; `${ field = value }`
+(assign
+  name: (identifier) @variable.member)
+
+; ---------------------------------------------------------------------------
+; Union constructors: `Ctor(...)`, `@Ctor(...)`
+; ---------------------------------------------------------------------------
+
+(ctor_def
+  name: (identifier) @constructor)
+
+(ctor_expression
+  "@" @constructor
+  name: (identifier) @constructor)
+
+(ctor_pattern
+  "@" @constructor
+  name: (identifier) @constructor)
+
+; ---------------------------------------------------------------------------
+; Enumerants: `Name = value`, `#Name`
+; ---------------------------------------------------------------------------
+
+(enumerant_def
+  name: (identifier) @constant)
+
+(enumerant_expression
+  "#" @constant
+  name: (identifier) @constant)
+
+(enumerant_pattern
+  "#" @constant
+  name: (identifier) @constant)
+
+; ---------------------------------------------------------------------------
+; Patterns
+; ---------------------------------------------------------------------------
+
+(binding_pattern
+  name: (identifier) @variable)
+
+; ---------------------------------------------------------------------------
+; Annotations: `@name`, `@name(args)`
+; ---------------------------------------------------------------------------
+
+(annotation
+  "@" @attribute
+  name: (identifier) @attribute)
 
 ; ---------------------------------------------------------------------------
 ; Operators
 ; ---------------------------------------------------------------------------
+
 [
+  ; drivers
   ":="
   "<="
   ":=:"
+  ; logical
   "&&"
   "||"
   "^^"
-  "=="
-  "!="
+  ; comparison
   "<"
   ">"
   ">="
+  "=="
+  "!="
+  ; additive
   "+"
   "-"
   "&"
   "|"
   "^"
+  ; unary
   "~"
   "!"
+  ; misc
   "->"
   "=>"
   "="
-  ":"
-  "::"
-  "."
   ".."
 ] @operator
 
 ; ---------------------------------------------------------------------------
 ; Punctuation
 ; ---------------------------------------------------------------------------
+
 [
   "("
   ")"
-  "{"
-  "}"
   "["
   "]"
-  ","
-  "$"
+  "{"
+  "}"
 ] @punctuation.bracket
+
+[
+  ","
+  ":"
+  "::"
+  "."
+] @punctuation.delimiter
+
+"$" @punctuation.special
